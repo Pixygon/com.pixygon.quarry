@@ -1,0 +1,12 @@
+{
+  "name": "com.pixygon.quarry",
+  "version": "0.1.0",
+  "displayName": "Pixygon — Quarry",
+  "description": "Bring Thread worlds and Quarry models into Unity. Imports a World Manifest (world.json from `thread level`) — its glb assets, prefab materials and placements — into a scene, and keeps the provenance (Codex slug, Quarry design, recipe) on every object so an asset can always be traced back to the canon that produced it.",
+  "unity": "6000.0",
+  "dependencies": {
+    "com.unity.cloud.gltfast": "6.19.0"
+  },
+  "keywords": ["pixygon", "quarry", "thread", "gltf", "world"],
+  "author": { "name": "Pixygon", "url": "https://pixygon.io" }
+}
