@@ -37,3 +37,33 @@ Static geometry only. Animation is the avatar/actor system's job.
 ## Why provenance
 
 An asset that cannot say where it came from cannot be regenerated, restyled or replaced consistently. The Quarry derives every model from a recipe and names it by the recipe's hash; this package carries that name into the scene so a Unity object and a Codex entry can always find each other.
+
+## Wind
+
+Every plant grown by the Thread's Grove carries its wind in four vertex
+channels — it knows its own hierarchy, so the shader does not have to guess:
+
+| channel | meaning |
+| --- | --- |
+| `TEXCOORD_2.x` (uv3.x) | trunk sway: 0 at the ground, 1 at the top of the trunk, inherited out along every limb |
+| `TEXCOORD_2.y` (uv3.y) | branch sway: 0 along the trunk, climbing each generation to 1 at the outermost twigs |
+| `TEXCOORD_3.x` (uv4.x) | leaf flutter: the tremble only a leaf has; 0 on wood |
+| `TEXCOORD_3.y` (uv4.y) | phase, 0..1 per branch, so no two limbs march in step |
+| `COLOR_0.a` | rigidity (1 − sway): Infinite's channel, kept for it, not read here |
+
+`Runtime/Shaders/GroveWind.shader` (`Pixygon/Grove Wind`) is a URP lit surface
+that reads them — one slow whole-tree lean, a limb's own swing at its own
+phase, a leaf's fast tremble, all in world space off one gust field so a stand
+ripples instead of nodding together — in every pass, shadows included.
+Material properties: the glTF PBR set as chisel exports it (base colour with
+alpha, normal map, ORM map packed R occlusion / G roughness / B metallic) and
+the wind (`_WindDirection`, `_WindStrength`, `_WindSpeed`, `_TrunkSway`,
+`_BranchSway`, `_Flutter`).
+
+After an import, `GroveWindMaterials.Apply(root)` swaps the Grove Wind material
+onto every mesh that carries the channels, copying the maps from glTFast's
+material; the importer does this itself. A mesh without the channels reads
+zeros and stands still, which is the right default for everything that
+predates the wind. `TEXCOORD_1` on the same meshes is the branch id
+(`id = (uint)uv2.x | ((uint)uv2.y << 16)`), for hit-testing a swing — see
+`thread-engine/crates/grove`.

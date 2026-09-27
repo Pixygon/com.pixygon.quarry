@@ -154,8 +154,10 @@ namespace Pixygon.Quarry
 
             Debug.Log($"[Quarry] {worldName}: {placed} placed, {missing} placements had no prefab, {assetPath.Count} glb(s) in {ImportRoot}");
             Selection.activeGameObject = root;
+            // Anything that came in with Grove's wind channels moves from now on.
+            var windy = GroveWindMaterials.Apply(root);
+            if (windy > 0) Debug.Log($"[Quarry] Grove Wind on {windy} material(s)");
             return root;
-        }
 
         static GameObject BuiltinTemplate(WorldPrefab p)
         {
