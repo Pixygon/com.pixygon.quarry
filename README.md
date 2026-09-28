@@ -60,6 +60,9 @@ alpha, normal map, ORM map packed R occlusion / G roughness / B metallic) and
 the wind (`_WindDirection`, `_WindStrength`, `_WindSpeed`, `_TrunkSway`,
 `_BranchSway`, `_Flutter`).
 
+glTFast imports up to eight UV sets (its own shaders read two; this one
+reads four), so nothing about the import has to change.
+
 After an import, `GroveWindMaterials.Apply(root)` swaps the Grove Wind material
 onto every mesh that carries the channels, copying the maps from glTFast's
 material; the importer does this itself. A mesh without the channels reads

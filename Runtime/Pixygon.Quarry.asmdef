@@ -1,12 +1,8 @@
 {
-  "name": "Pixygon.Quarry.Editor",
+  "name": "Pixygon.Quarry",
   "rootNamespace": "Pixygon.Quarry",
-  "references": [
-    "Pixygon.Quarry",
-    "glTFast",
-    "glTFast.Editor"
-  ],
-  "includePlatforms": ["Editor"],
+  "references": [],
+  "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,
   "overrideReferences": false,

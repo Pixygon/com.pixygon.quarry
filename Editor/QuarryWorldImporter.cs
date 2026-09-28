@@ -25,18 +25,8 @@ using UnityEngine;
 
 namespace Pixygon.Quarry
 {
-    /// <summary>What an imported object knows about where it came from.</summary>
-    public sealed class QuarryProvenance : MonoBehaviour
-    {
-        [Tooltip("Path or URL of the world.json this was imported from.")] public string manifest;
-        [Tooltip("The asset uri inside that manifest (relative path or Quarry URL).")] public string assetUri;
-        [Tooltip("Prefab id in the manifest.")] public string prefabId;
-        [Tooltip("Codex slug of the place or object this belongs to, when the manifest names one.")] public string codexSlug;
-        [Tooltip("Quarry design hash, when the asset came from the Quarry.")] public string design;
-        public string importedAt;
-    }
-
     // ── Manifest shapes (only the fields this importer reads) ───────────────
+#pragma warning disable 0649 // filled by JsonUtility
     [Serializable] class WorldAsset { public string id; public string uri; public string kind; }
     [Serializable] class WorldMesh { public string asset; public string builtin; }
     [Serializable] class WorldMaterial { public float[] base_color; public float metallic; public float roughness; public float emissive; }
@@ -48,6 +38,7 @@ namespace Pixygon.Quarry
         public string thread; public string world;
         public WorldAsset[] assets; public WorldPrefab[] prefabs; public WorldPlacement[] placements; public WorldLight[] lights;
     }
+#pragma warning restore 0649
 
     public static class QuarryWorldImporter
     {
@@ -158,6 +149,7 @@ namespace Pixygon.Quarry
             var windy = GroveWindMaterials.Apply(root);
             if (windy > 0) Debug.Log($"[Quarry] Grove Wind on {windy} material(s)");
             return root;
+        }
 
         static GameObject BuiltinTemplate(WorldPrefab p)
         {
